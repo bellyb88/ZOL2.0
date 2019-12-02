@@ -1,0 +1,97 @@
+{% extends "base_one.html" %}
+{%block one%}
+{%load static%}
+<div class="row">
+  <div class="container">
+    <img src="{%static 'pieczatka.png'%}" alt="" class="text-center p-2 w-25 d-none d-print-block">
+  <p class="h1 text-center mb-5">
+{%if previous and not pacjent.zgon%}
+  <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+{%endif%}
+    <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+    {%if next and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+    {%endif%}
+  </p>
+  </div>
+
+</div>
+
+<div class="container">
+
+{%if class == 'zywienie'%}
+
+<h1>Żywienie</h1> <br>
+{%elif class == 'wypis' %}
+<h1>Wypis</h1> <br>
+{%elif class == 'przepustka' %}
+<h1>Przepustka</h1> <br>
+{%endif%}
+{%if user.department == 'lekarz'%}
+
+<form method="post" autocomplete=off class="d-print-none">{% csrf_token %}
+  <table class="table">
+    {{form.user}}{{form.pacjent}}
+  <tr><th>  Data od: </th><td>{{form.data_od}} {{form.data_od_time_hour}}:{{form.data_od_time_min}}</td></tr>
+  <tr> <th> Data do: </th><td>{{form.data_do}} {{form.data_do_time_hour}}:{{form.data_do_time_min}}</td></tr>
+    {%if class == 'zywienie'%}
+  <tr><th>  Dieta:</th><td> {{form.dieta}} </td></tr>
+  <tr><th>  Dieta objętość: </th><td>{{form.dieta_objetosc}}</td></tr>
+  <tr><th>  Woda objętość:</th><td> {{form.woda_objetosc}} </td></tr>
+  <tr><th>  Glasgow: </th><td>{{form.glasgow}} </td></tr>
+    {%endif%}
+
+    {%if class == 'wypis'%}
+  <tr><th>  Miejsce wypisu:</th><td> {{form.miejsce_wypisu}} </td></tr>
+  <tr><th>  Przyczyna wypisu: </th><td>{{form.przyczyna_wypisu}} </td></tr>
+  <tr><th>  Tryb wypisu:</th><td> {{form.tryb}} </td></tr>
+    {%endif%}
+
+    {%if class == 'przepustka'%}
+  <tr><th>  Komentarz: </th><td>{{form.tresc}} </td></tr>
+    {%endif%}
+      </table>
+    <input type="submit" value="Save" class="btn btn-info ml-3">
+</form>
+{%else%}
+{%endif%}
+<div>
+<br><br>
+
+<table class="table table-hover table-striped">
+  <tr class="bg-secondary text-center">
+   <th>{{pacjent.nazwisko}} {{pacjent.imie}}</th><th>Od:</th><th>Do:</th><th class="d-block d-print-none">&nbsp;</th><th class="d-none d-print-block" style="min-width:5em;">Zlecający</th>
+  </tr>
+{%for object in all%}
+
+<tr>
+  {%if class == 'zywienie'%}
+  <td class="text-center">{{object.dieta}}  {{object.dieta_objetosc}} ml / {{object.woda_objetosc}} ml wody</td>
+   <td class="text-center">{{object.data_od|date:" d.m.Y"}}</td>
+   <td class="text-center">  {%if object.data_do%}{{object.data_do|date:" d.m.Y"}}{%endif%}</td>
+   <td class="btn-group d-print-none">
+   <a class="btn btn-outline-dark" href="{%url 'zywienie_update' pacjent.slug object.id%}">Update</a>
+   <a class="btn btn-outline-dark" target="_blank" href="{%url 'zywienie_detail' pacjent.slug object.id%}">Drukuj</a>
+   <a class="btn btn-outline-dark" href="{%url 'zywienie_delete' pacjent.slug object.id%}">Delete</a> <br>
+   {%elif class == 'wypis'%}
+   <td class="text-center">{{object.tryb}}</td>
+    <td class="text-center">{{object.data_od|date:" d.m.Y"}}</td>
+    <td class="text-center">  {%if object.data_do%}{{object.data_do|date:" d.m.Y"}}{%endif%}</td>
+  <td class="btn-group d-print-none"> <a class="btn btn-outline-dark" href="{%url 'wypis_update' pacjent.slug object.id%}">Update</a>
+   <a class="btn btn-outline-dark" target="_blank" href="{%url 'wypis_detail' pacjent.slug object.id%}">Drukuj</a>
+   <a class="btn btn-outline-dark" href="{%url 'wypis_delete' pacjent.slug object.id%}">Delete</a> </td>
+   {%elif class == 'przepustka'%}
+   <td class="text-center">Przepustka</td>
+    <td class="text-center">{{object.data_od|date:" d.m.Y"}}</td>
+    <td class="text-center">  {%if object.data_do%}{{object.data_do|date:" d.m.Y"}}{%else%}<p> &nbsp;</p>{%endif%}</td>
+  <td class="btn-group d-print-none"> <a class="btn btn-outline-dark" href="{%url 'przepustka_update' pacjent.slug object.id%}">Update</a>
+   <a class="btn btn-outline-dark" target="_blank" href="{%url 'przepustka_detail' pacjent.slug object.id%}">Drukuj</a>
+   <a class="btn btn-outline-dark" href="{%url 'przepustka_delete' pacjent.slug object.id%}">Delete</a> </td>
+   {%endif%}
+   <td class="d-none d-print-block"><p class="p-2">{{object.user}}</p></td>
+</tr>
+{%endfor%}
+</table>
+
+</div>
+{%endblock%}

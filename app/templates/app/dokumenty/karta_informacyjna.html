@@ -1,0 +1,69 @@
+{% extends "base_one.html" %}
+{%block one%}
+{%load static%}
+
+  <div class="row d-print-none">
+    <div class="container">
+    <p class="h1 text-center mb-5">
+  {%if previous and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+  {%endif%}
+      <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+      {%if next and not pacjent.zgon%}
+      <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+      {%endif%}
+    </p>
+    </div>
+
+  </div>
+  <body>
+
+    <div class="container pt-5">
+      <div class="row">
+
+      <span class="d-none d-print-block">
+    <img src="{%static 'pieczatka.png'%}" alt="" class="text-center p-2 w-25 float-right">
+    </span>
+    </div>
+      <p class="h1 m-5 text-center">Karta Informacyjna <small class="d-print-none h5"> <a href="{%url 'medyczne_update' pacjent.slug%}">Edytuj</a> </small> </p>
+
+        <p>
+          <span class=" font-weight-bold">Nazwisko i imie</span>
+          <span class="">{{object.nazwisko}} {{object.imie}}</span>
+        </p>
+        <p>
+          <span class=" font-weight-bold">PESEL</span>
+          <span class="">{{object.pesel}}</span>
+        </p>
+        <p>
+          <span class=" font-weight-bold">Data i miejsce urodzenia</span>
+          <span class="">19{{object.pesel.0}}{{object.pesel.1}}-{{object.pesel.2}}{{object.pesel.3}}-{{object.pesel.4}}{{object.pesel.5}}  {{object.miejsce_urodzenia}}</span>
+        </p>
+        <div class="jumbotron jumbotron-fluid m-1 p-1">
+          <p class="lead font-weight-bold">Epikryza</p>
+          <p>{{object.epikryza}}</p>
+
+        </div>
+        {%if object.wyniki%}
+        <div class="jumbotron jumbotron-fluid m-1 p-1">
+          <p class="lead font-weight-bold">Wyniki</p>
+          <p>{{object.wyniki}}</p>
+          {%endif%}
+        </div>
+        {%if object.zalecenia%}
+        <div class="jumbotron jumbotron-fluid m-1 p-1">
+          <p class="lead font-weight-bold">Zalecenia</p>
+          <p>{{object.zalecenia}}</p>
+        </div>
+        {%endif%}
+        <hr>
+        <table class="table table-bordered">
+          <tr>
+            <td class="p-5">Lekarz: </td>
+          </tr>
+        </table>
+    </div>
+
+  </body>
+</html>
+{%endblock%}

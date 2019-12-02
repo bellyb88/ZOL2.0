@@ -1,0 +1,119 @@
+{% extends "base_one.html" %}
+{%block one%}
+{%load static%}
+
+  <div class="row d-print-none">
+    <div class="container">
+    <p class="h1 text-center mb-5">
+  {%if previous and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+  {%endif%}
+      <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+      {%if next and not pacjent.zgon%}
+      <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+      {%endif%}
+    </p>
+    </div>
+
+  </div>
+  <body>
+
+    <div class="container pt-5">
+      <span class="d-none d-print-block">
+    <img src="{%static 'pieczatka.png'%}" alt="" class="text-center p-2 w-25 float-right">
+    </span>
+      <p class="h1 mb-5">Karta Przyjęcia</p>
+
+
+      <table class="table">
+        <tr>
+          <td class=" font-weight-bold">Nazwisko i imie</td>
+          <td class="">{{object.nazwisko}} {{object.imie}}</td>
+        </tr>
+        <tr>
+          <td class=" font-weight-bold">PESEL</td>
+          <td class="">{{object.pesel}}</td>
+        </tr>
+        <tr>
+          <td class=" font-weight-bold">Data i miejsce urodzenia</td>
+          <td class="">19{{object.pesel.0}}{{object.pesel.1}}-{{object.pesel.2}}{{object.pesel.3}}-{{object.pesel.4}}{{object.pesel.5}}  {{object.miejsce_urodzenia}}</td>
+        </tr>
+        <tr>
+          <td class=" font-weight-bold">Imiona rodzicow</td>
+          <td class="">{{object.imiona_rodzicow}}</td>
+        </tr>
+        <tr>
+          <td class=" font-weight-bold">Adres zamieszkania</td>
+          <td class="">{{object.adres}}</td>
+        </tr>
+        <tr>
+          <td class=" font-weight-bold">Numer ligitymacji ZUS</td>
+          <td class="">{{object.nr_leg_zus}}</td>
+        </tr>
+        <tr>
+          <td class=" font-weight-bold">Numer świadczenia ZUS</td>
+          <td class="">{{object.nr_swiadczenia_zus}}</td>
+        </tr>
+        <tr>
+          <td class=" font-weight-bold">Data wydania leg. ZUS</td>
+          <td class="">{%if object.data_wydania_zus%}{{object.data_wydania_zus}}{%endif%}</td>
+        </tr>
+
+        <tr>
+        <td class=" font-weight-bold">Data przyjęcia:</td>
+        <td class="">{{object.data_przyjecia}}</td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">Tryb przyjęcia</td>
+        <td class="">{{object.tryb_przyjecia}}</td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">Nr księgi głównej:</td>
+        <td class="">{{object.nr_ksiegi}}</td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">Rozpoznanie:</td>
+        <td class="">{%for choroba in chorobowosc%} <p>{{choroba.choroba}}</p>{%endfor%} </td>
+        </tr>
+
+        <tr>
+        <td class="font-weight-bolder h2"><u>Dane zlecającego</u></td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">Data skierowania:</td>
+        <td class="">{%if object.data_skierowania%}{{object.data_skierowania}}{%endif%}</td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">Kod jednostki zlec:</td>
+        <td class="">{{object.nr_umowy_szpitala}}</td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">REGON</td>
+        <td class="">{{object.regon_szpitala}}</td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">PWZ zlecającego:</td>
+        <td class="">{{object.pwz_zlecajacego}}</td>
+        </tr>
+        <tr>
+        <td class=" font-weight-bold">Kod resortowy</td>
+        <td class=""><b>I</b> {{object.nr_rej_szpitala}} <b>VII</b> {{object.nr_wew_oddzialu}} <b>VIII</b> {{object.kod_oddzial_zlecajacego}}</td>
+        </tr>
+        </table>
+        <p>Pobyt od: {{object.data_przyjecia}}      {%if object.zgon.data%}
+          do {{object.zgon.data}}
+          {%else%}
+           do nadal
+          {%endif%}</p>
+        {%if wypisy%}W tym:
+              {%for wypis in wypisy%}
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wypis do {{wypis.miejsce_wypisu}} od {{wypis.data_od | date:"d.m.Y h:m"}}
+                {%if wypis.data_do%} do {{wypis.data_do| date:"d.m.Y h:m"}} {%endif%}.</p>
+              {%endfor%}
+        {%endif%}
+
+    </div>
+
+  </body>
+</html>
+{%endblock%}

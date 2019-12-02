@@ -1,0 +1,49 @@
+{% extends "base_one.html" %}
+{%block one%}
+{%load static%}
+
+  <div class="row d-print-none">
+    <div class="container">
+    <p class="h1 text-center mb-5">
+  {%if previous and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+  {%endif%}
+      <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+      {%if next and not pacjent.zgon%}
+      <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+      {%endif%}
+    </p>
+    </div>
+
+  </div>
+  <body>
+
+    <div class="container pt-5">
+      <div class="row">
+
+      <span class="d-none d-print-block">
+    <img src="{%static 'pieczatka.png'%}" alt="" class="text-center p-2 w-25 float-right">
+    </span>
+    </div>
+      <p class="h1 m-5 text-center">Zlecenie trasnportu </p>
+
+        <p>
+          <span class=" font-weight-bold">Nazwisko i imie:</span>
+          <span class="">{{object.nazwisko}} {{object.imie}}</span>
+        </p>
+        <p>
+          <span class=" font-weight-bold">PESEL:</span>
+          <span class="">{{object.pesel}}</span>
+        </p>
+
+        <table class="table input-group">
+        <tr class="p-2 m-3"><td>Trasnport z:</td><td><input type="text" name="" value="" class="border"></td></tr>
+        <tr class="p-2 m-3"><td>Trasnport do:</td><td> <input type="text" name="" value="" class="border"></td></tr>
+        <tr class="p-2 m-3"><td>Rozpoznanie:</td><td> <input type="text" id="id_wyjsciowa" value="" class="border"></td></tr>
+        <tr class="p-2 m-3"><td>Dodatkowe informacje:</td><td> <textarea rows="5" cols="80" type="text" name="" class="border"> </textarea></td></tr>
+        </table>
+      </div>
+
+  </body>
+</html>
+{%endblock%}

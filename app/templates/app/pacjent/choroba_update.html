@@ -1,0 +1,45 @@
+{% extends "base_one.html" %}
+{%block one%}
+<div class="row">
+  <div class="container">
+  <p class="h1 text-center mb-5">
+{%if previous and not pacjent.zgon%}
+  <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+{%endif%}
+    <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+    {%if next and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+    {%endif%}
+  </p>
+  </div>
+</div>
+
+
+<div class="container">
+
+<form method="post">{% csrf_token %}
+<table>
+  <tr>
+    <td>Choroba: {{form.choroba}} {{form.pacjent}}</td>
+    <td><input type="submit" value="Save" class="btn btn-info"></td>
+  </tr>
+</table>
+</form>
+<hr>
+    {%for choroba in chorobowosc.all%}
+  <p class=" alert alert-danger">
+    <span class="d-inline">{{choroba.choroba.kod}}, {{choroba.choroba.nazwa}}</span>
+    <span class="text-muted d-inline"><a href="{%url 'choroby_delete' pacjent.slug choroba.id %}" class="text-muted"> Usuń</a></span></p>
+    {%endfor%}
+<hr>
+<p class="h-4 font-weight-bold">Pozostałe choroby:</p>
+<form class="" action="{%url 'medyczne_update' pacjent.slug%}" method="post">{% csrf_token %}
+  <textarea name="choroby" id="id_choroby" rows="8" cols="80"> {{pacjent.choroby}}</textarea>
+  <input type="hidden" name="pacjent" value="{{pacjent.pesel}}">
+  <p class="m-4"><input type="submit" value="Save" class="btn btn-info"></p>
+</form>
+
+
+
+</div>
+{%endblock%}

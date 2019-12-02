@@ -1,0 +1,101 @@
+
+{% extends "base_zero.html" %}
+
+{%block zero%}
+{%load static%}
+<div class="row jumbotron d-print-none">
+
+								<div class="col-sm-4">
+								<div class="card text-white bg-dark mb-3 navbar-expand-lg" style="min-width: 14rem;">
+									<div class="card-header h3 text-center">
+										<button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#dekursusContent" aria-controls="dekursusContent" aria-expanded="false" aria-label="dekursusContent navigation">
+										Dekursus</button>
+									</div>
+									<div class="card-body mx-auto collapse" id="dekursusContent">
+										<div class="btn-group-vertical ">
+											<a href="{%url 'dekursus_lek' pacjent.slug%}" class="btn btn-outline-light">Lekarski</a>
+											<a href="{%url 'dekursus_piel' pacjent.slug%}" class="btn btn-outline-light">Pielęgniarski</a>
+											<a href="{%url 'dekursus_psych' pacjent.slug%}" class="btn btn-outline-light">Psychologa</a>
+
+									</div>
+								</div>
+							</div>
+							</div>
+
+							<div class="col-sm-4">
+							<div class="card text-white bg-dark mb-3" style="min-width: 14rem;">
+								<div class="card-header h3 text-center">
+									<button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#okresoweContent" aria-controls="okresoweContent" aria-expanded="false" aria-label="okresoweContent navigation">
+									Okresowe</button></div>
+								<div class="card-body mx-auto collapse" id="okresoweContent">
+									<div class="btn-group-vertical ">
+										<a href="{%url 'wypis' pacjent.slug%}" class="btn btn-outline-light">Wypis</a>
+										<a href="{%url 'zywienie' pacjent.slug%}" class="btn btn-outline-light">Żywienie</a>
+										<a href="{%url 'przepustka' pacjent.slug%}" class="btn btn-outline-light">Przepustka</a>
+
+								</div>
+							</div>
+						</div>
+						</div>
+
+						<div class="col-sm-4">
+						<div class="card text-white bg-dark mb-3" style="min-width: 14rem;">
+							<div class="card-header h3 text-center">
+								<button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#zgonContent" aria-controls="zgonContent" aria-expanded="false" aria-label="zgonContent navigation">
+								Zgon</button></div>
+							<div class="card-body mx-auto collapse" id="zgonContent">
+								<div class="btn-group-vertical ">
+									<a href="{%url 'zgon' pacjent.slug%}" class="btn btn-outline-light">Zgon</a>
+									{%if pacjent.zgon%}
+									<a href="#" class="btn btn-outline-light">Wypis zgonowy</a>
+									<a href="#" class="btn btn-outline-light">Deklaracja rodziny</a>
+									<a href="#" class="btn btn-outline-light">Karta sekcji</a>
+									{%endif%}
+
+							</div>
+						</div>
+					</div>
+					</div>
+
+					<div class="col-sm-4">
+					<div class="card text-white bg-dark mb-3" style="min-width: 14rem;">
+						<div class="card-header h3 text-center">
+							<button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#dokumentyContent" aria-controls="dokumentyContent" aria-expanded="false" aria-label="dokumentyContent navigation">
+							Dokumenty</button></div>
+						<div class="card-body mx-auto collapse" id="dokumentyContent">
+							<div class="btn-group-vertical ">
+								<a href="{%url 'karta_przyjecia' pacjent.slug%}" class="btn btn-outline-light">Karta przyjęcia</a>
+								<a href="{%url 'karta_informacyjna' pacjent.slug%}" class="btn btn-outline-light">Karta informacyjna</a>
+								<a href="{%url 'zlecenie_transportu' pacjent.slug%}" class="btn btn-outline-light">Zlecenie transportu</a>
+								<a href="#" class="btn btn-outline-light">Skierowanie</a>
+
+						</div>
+					</div>
+				</div>
+				</div>
+
+				<div class="col-sm-4">
+				<div class="card text-white bg-dark mb-3" style="min-width: 14rem;">
+					<div class="card-header h3 text-center">
+						<button class="btn btn-outline-light" type="button" data-toggle="collapse" data-target="#pielegniarskieContent" aria-controls="pielegniarskieContent" aria-expanded="false" aria-label="pielegniarskieContent navigation">
+						Pielęgniarskie</button></div>
+					<div class="card-body mx-auto collapse" id="pielegniarskieContent">
+						<div class="btn-group-vertical ">
+							<a href="#" class="btn btn-outline-light">Karta czynności</a>
+							<a href="{%url 'odlezyna' pacjent.slug %}" class="btn btn-outline-light">Odleżyny</a>
+							<a href="{%url 'norton' pacjent.slug %}" class="btn btn-outline-light">Norton</a>
+							<a href="{%url 'barthel' pacjent.slug %}" class="btn btn-outline-light">Barthel</a>
+							<a href="#" class="btn btn-outline-light">Podanie diety</a>
+
+					</div>
+				</div>
+			</div>
+			</div>
+
+</div>
+
+
+{%block one%}
+{%endblock%}
+
+{%endblock%}

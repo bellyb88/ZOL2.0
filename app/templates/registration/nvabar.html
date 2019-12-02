@@ -1,0 +1,19 @@
+{% extends "base_zero.html" %}
+{%block navbar%}
+
+<div class="row">
+	<div class="container">
+
+	<p class="h1 text-center mb-5">
+{%if previous and not pacjent.zgon%}
+	<a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+{%endif%}
+		<a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+		{%if next and not pacjent.zgon%}
+		<a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+		{%endif%}
+	</p>
+	</div>
+
+</div>
+{%endblock%}

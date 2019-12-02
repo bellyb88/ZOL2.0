@@ -1,0 +1,24 @@
+{% extends "base_one.html" %}
+{%block one%}
+
+
+
+<div class="container">
+
+{%if object.user.department == 'lekarz'%}
+<a href="{%url 'dekursus_lek' pacjent.slug%}" class="h1 text-dark"><i class="fas fa-arrow-alt-circle-up"></i>Dekursus lekarski</a>
+{%elif object.user.department == 'pielegniarka'%}
+<a href="{%url 'dekursus_piel' pacjent.slug%}" class="h1 text-dark"><i class="fas fa-arrow-alt-circle-up"></i>Dekursus pielęgniarski</a>
+{%elif object.user.department == 'psycholog'%}
+<a href="{%url 'dekursus_psych' pacjent.slug%}" class="h1 text-dark"><i class="fas fa-arrow-alt-circle-up"></i>Dekursus psychologa</a>
+{%endif%}
+<form method="post" class="m-4">{% csrf_token %}
+  <table class="table">
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Save" class="btn btn-info ml-2">
+</form>
+<hr class="mb-5">
+</div>
+
+{%endblock%}

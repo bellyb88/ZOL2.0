@@ -1,0 +1,60 @@
+{% extends "base_one.html" %}
+{%block one%}
+{%load static%}
+<div class="row d-print-none">
+  <div class="container">
+  <p class="h1 text-center mb-5">
+{%if previous and not pacjent.zgon%}
+  <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+{%endif%}
+    <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+    {%if next and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+    {%endif%}
+  </p>
+  </div>
+</div>
+
+<div class="container">
+    <p class="h2">Norton</p>
+  {%if aktualny%}
+  <p class="alert alert-danger d-print-none">Skala Norton oceniona w dniu dzisiejszym. Jeżeli chcesz zminić użyj Edytuj</p>
+  {%endif%}
+<form method="post"class="form-group m-3 d-print-none">{% csrf_token %}
+  <table class="table">
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Save" class="btn btn-info">
+</form>
+
+
+<div class="row">
+<table class="table table-hover table-striped container">
+  <thead>
+    <tr>
+      <th ><p class="float-left h3 font-weight-bold">Skala Norton {{pacjent.nazwisko}} {{pacjent.imie}}</p>
+        <img src="{%static 'pieczatka.png'%}" alt="" class="float-right w-25 d-none d-print-block"></th>
+
+       </tr>
+  </thead>
+
+  {%for skala in objects%}
+
+  <tr>
+     <td><p>{{skala.data}}</p>
+       <p>Ocena w skali norton: {{skala.fizykalny }}+ {{skala.swiadomosc }}+ {{skala.aktywnosc }}+ {{skala.samodzielnosc }}+ {{skala.zwieracze}} = {{skala.suma}} </p>
+       <p>{{skala.user.department}}. {{skala.user}}</p>
+
+
+</td>
+<td class="bg-secondary btn-group-vertical">
+<a class="text-light btn btn-outline-light m-0 text-right d-print-none" href="{%url 'norton_update'  pacjent.pesel skala.id%}" style= "float:right">Edytuj</a>
+<a class="text-light btn btn-outline-light m-0 text-right d-print-none" href="{%url 'norton_delete' pacjent.pesel skala.id %}" style= "float:right">Usuń</a>
+</td>
+  </tr>
+  {%endfor%}
+</table>
+
+</div>
+</div>
+{%endblock%}

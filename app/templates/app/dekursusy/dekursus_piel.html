@@ -1,0 +1,58 @@
+{% extends "base_one.html" %}
+{%load static%}
+{%block one%}
+<div class="row d-print-none">
+  <div class="container">
+  <p class="h1 text-center mb-5">
+{%if previous and not pacjent.zgon%}
+  <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+{%endif%}
+    <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+    {%if next and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+    {%endif%}
+  </p>
+  </div>
+
+</div>
+
+
+<div class="container">
+{%if perms.app.add_dekursus_piel%}
+<form method="post"class="form-group m-3 d-print-none">{% csrf_token %}
+  <table class="table">
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Save" class="btn btn-info">
+</form>
+{%endif%}
+
+<div class="row">
+<table class="table table-hover table-striped container">
+  <thead>
+    <tr>
+      <th ><p class="float-left h3 font-weight-bold">Dekursus pielęgniarski {{pacjent.nazwisko}} {{pacjent.imie}}</p>
+        <img src="{%static 'pieczatka.png'%}" alt="" class="float-right w-25 d-none d-print-block"></th>
+
+       </tr>
+
+  </thead>
+
+  {%for dekursus in objects%}
+
+  <tr>  <td>
+    {{dekursus.data}}<br>
+{{dekursus.tresc}}<br>
+<b>{{dekursus.user.department}}. {{dekursus.user}}</b>
+{%if perms.app.change_dekursus_piel%}
+</td>
+<td class="bg-secondary btn-group-vertical">
+<a class="text-light btn btn-outline-light m-0 text-right d-print-none" href="{%url 'dekursus_piel_update' pacjent.slug dekursus.id %}" style= "float:right">Edytuj</a>
+<a class="text-light btn btn-outline-light m-0 text-right d-print-none" href="{%url 'dekursus_piel_delete' pacjent.slug dekursus.id %}" style= "float:right">Usuń</a>{%endif%}
+</td>
+  </tr>
+  {%endfor%}
+</table>
+</div>
+</div>
+{%endblock%}

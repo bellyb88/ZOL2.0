@@ -1,0 +1,59 @@
+{% extends "base_one.html" %}
+{%block one%}
+<div class="row">
+  <div class="container">
+  <p class="h1 text-center mb-5">
+{%if previous and not pacjent.zgon%}
+  <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+{%endif%}
+    <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+    {%if next and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+    {%endif%}
+  </p>
+  </div>
+
+</div>
+<div class="container">
+  <p class="h1 text-center mb-5">Zgon</p>
+
+{%if not pacjent_zgon%}
+{%if perms.app.add_zgon%}
+
+<table class="table table-borderless">
+<form method="post">{% csrf_token %}
+    {{ form.as_table }}
+</table>
+<input type="submit" value="Save"  class="btn btn-info ml-5">
+</form>
+{%else%}
+<p>Nie posiadasz uprawnień do stwierdzenia zgonu</p>
+{%endif%}
+{%endif%}
+
+<ul class="list-group m-5">
+<li class="list-group-item"><p class="font-weight-bold">Pacjent: </p> <p class="h5"> {{pacjent.imie}} {{pacjent.nazwisko}} </li>
+<li class="list-group-item"><p class="font-weight-bold">Nazwisko rodowe:</p> <p class="h5">  {%if pacjent.nazwisko_rodowe%} {{pacjent.nazwisko_rodowe}}{%else%} <a href="{%url 'dowod_update' pacjent.slug%}" ><p class="alert alert-danger">Uzupełnij Nazwisko Rodowe pacjenta !</p></a> {%endif%} </li>
+<li class="list-group-item"><p class="font-weight-bold">PESEL: </p> <p class="h5"> {{pacjent.pesel}} </li>
+<li class="list-group-item"><p class="font-weight-bold">Nr dowodu: </p> <p class="h5"> {%if pacjent.nr_dowodu%} {{pacjent.nr_dowodu}}{%else%}<a href="{%url 'dowod_update' pacjent.slug%}"> <p class="alert alert-danger">Uzupełnij Nr Dowodu pacjenta !</p> </a>{%endif%}</li>
+<li class="list-group-item"><p class="font-weight-bold">Płeć: </p> <p class="h5"> {{pacjent.plec}}</li>
+<li class="list-group-item"><p class="font-weight-bold">Miejsce urodzenia: </p> <p class="h5"> {%if pacjent.miejsce_urodzenia%} {{pacjent.miejsce_urodzenia}}{%else%}<a href="{%url 'dowod_update' pacjent.slug%}"><p class="alert alert-danger"> Uzupełnij Miejsce Urodzenia pacjenta !</p></a> {%endif%} </li>
+{%if pacjent_zgon%}
+<li class="list-group-item"><p class="font-weight-bold">Data i godzina zgonu: </p> <p class="h5"> {{pacjent_zgon.data}}  godz.{{pacjent_zgon.godzina}}</li>
+<li class="list-group-item"><p class="font-weight-bold">Przyczyna wyjsciowa: </p> <p class="h5"> {{pacjent_zgon.wyjsciowa}}</li>
+<li class="list-group-item"><p class="font-weight-bold">Przyczyna wtórna: </p> <p class="h5"> {{pacjent_zgon.wtorna}}</li>
+<li class="list-group-item"><p class="font-weight-bold">Przyczyna bezpośredni: </p> <p class="h5"> {{pacjent_zgon.bezposrednia}}</li>
+
+</ul>
+<ul class="btn-group mb-5 input-group-prepend ">
+  <a href="{%url 'zgon_update' pacjent.slug%}" class="text-light  p-3 btn btn-info">Update</a>
+  <a href="{%url 'zgon_delete' pacjent.slug%}" class="text-light  p-3 btn btn-danger">Delete</a>
+</ul>
+<ul class="btn-group mb-5 input-group-prepend">
+  {%if pacjent.zgon and pacjent.zgon.wtorna%}
+  <a href="{%url 'zgon_pdf' pacjent.slug%}" class="text-light  p-3 btn btn-success">Generuj Kartę Zgonu</a>
+{%endif%}
+</ul>
+{%endif%}
+</div>
+{%endblock%}

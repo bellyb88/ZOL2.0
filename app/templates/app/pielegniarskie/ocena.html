@@ -1,0 +1,16 @@
+{% extends "base_one.html" %}
+{%block one%}
+{%load static%}
+
+<div class="container mb-5">
+  <table class="table">
+
+
+  <form method="post" class="form-inline pb-3">{% csrf_token %}
+  {{form.as_table}}
+<input type="submit" value="Save" class="btn btn-info">
+  </form>
+  </table>
+
+</div>
+{%endblock%}

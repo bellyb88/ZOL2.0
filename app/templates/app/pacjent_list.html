@@ -1,0 +1,46 @@
+
+{% extends "base_zero.html" %}
+{%block zero%}
+{%load static%}
+<img src="{%static 'pieczatka.png'%}" alt="" class="float-right w-25 d-none d-print-block">
+{%if request.resolver_match.url_name == 'index'%}
+<p class="h1 d-none d-print-block mb-5 mt-3">Lista pacjentów:</p>
+{%elif request.resolver_match.url_name == 'archiwum'%}
+<p class="h1 d-none d-print-block mb-5 mt-3">Archiwum:</p>
+{%endif%}
+	<div class="row">
+	<div class="container ">
+		<table class="table table-striped table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">No.</th>
+					<th scope="col">Nazwisko Imie</th>
+					<th scope="col">PESEL</th>
+					<th scope="col" class=" d-none d-md-block d-print-none d-print-none">Dekursus</th>
+				</tr>
+				</thead>
+				<tbody>
+					{%for pacjent in pacjent_list%}
+							<tr >
+								<td><strong>{{forloop.counter}}</strong></td>
+								<td><strong><a href={{pacjent.get_absolute_url}} class="text-dark">  {{pacjent.nazwisko}} {{pacjent.imie}}</a></strong></td>
+								<td><a href={{pacjent.get_absolute_url}} class="text-dark">  {{pacjent.pesel}} </a></td>
+								{%if user.department == lekarz%}
+								<td class="d-none d-md-block d-print-none" ><a href={%url 'dekursus_lek' pacjent.slug%} class="text-dark">  Dekursus</a></td>
+								{%elif user.department == pielegniarka%}
+								<td class="d-none d-md-block d-print-none" ><a href={%url 'dekursus_piel' pacjent.slug%} class="text-dark">  Dekursus</a></td>
+								{%elif user.department == psycholog%}
+								<td class="d-none d-md-block d-print-none" ><a href={%url 'dekursus_psych' pacjent.slug%} class="text-dark">  Dekursus</a></td>
+								{%else%}
+								<td class="d-none d-md-block d-print-none" ><a href={%url 'dekursus_lek' pacjent.slug%} class="text-dark">  Dekursus</a></td>
+								{%endif%}
+							</tr>
+							{%endfor%}
+
+			</tbody>
+		</table>
+	</div>
+
+	</div>
+
+{%endblock%}

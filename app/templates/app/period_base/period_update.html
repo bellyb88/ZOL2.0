@@ -1,0 +1,32 @@
+{% extends "base_one.html" %}
+{%block one%}
+
+
+<div class="container">
+<form method="post" autocomplete=off>{% csrf_token %}
+  <table class="table">
+    {{form.user}}{{form.pacjent}}
+  <tr><th>  Data od:</th><td> {{form.data_od}} {{form.data_od_time_hour}}:{{form.data_od_time_min}}</td></tr>
+  <tr><th>  Data do:</th><td> {{form.data_do}} {{form.data_do_time_hour}}:{{form.data_do_time_min}}</td></tr>
+    {%if class == 'zywienie'%}
+  <tr><th>  Dieta:</th><td> {{form.dieta}} </td></tr>
+  <tr><th>  Dieta objętość:</th><td> {{form.dieta_objetosc}} </td></tr>
+  <tr><th>  Woda objętość:</th><td> {{form.woda_objetosc}} </td></tr>
+  <tr><th>  Glasgow:</th><td> {{form.glasgow}} </td></tr>
+    {%endif%}
+
+    {%if class == 'wypis'%}
+  <tr><th>  Miejsce wypisu: </th><td>{{form.miejsce_wypisu}} </td></tr>
+  <tr><th>  Przyczyna wypisu:</th><td> {{form.przyczyna_wypisu}} </td></tr>
+  <tr><th>  Tryb wypisu:</th><td> {{form.tryb}} </td></tr>
+    {%endif%}
+
+    {%if class == 'przepustka'%}
+  <tr><th>  Komentarz: </th><td>{{form.tresc}} </td></tr>
+    {%endif%}
+    </table>
+    <input type="submit" value="Save" class="btn btn-info ml-3">
+</form>
+</div>
+
+{%endblock%}

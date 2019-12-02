@@ -1,0 +1,107 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title class="d-print-none">Wypis {{object.pacjent}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{%static 'css/moje.css' %}" />
+
+  </head>
+  <body>
+
+    <div class="container pt-5">
+      <div class="row">
+        <span>
+      <img src="{%static 'pieczatka.png'%}" alt="" class="text-center p-2 w-25 float-right">
+    </span>
+    <p class="h1 float-left">{{object.pacjent}}</p>
+    <hr>
+      {%if request.resolver_match.url_name == 'zywienie_detail'%}
+      <p class="h2 font-weight-bold">Zlecenie żywienia</p>
+      {%elif request.resolver_match.url_name == 'wypis_detail'%}
+      <p class="h2 font-weight-bold">Zlecenie wypisu</p>
+      {%elif request.resolver_match.url_name == 'przepustka_detail'%}
+      <p class="h2 font-weight-bold">Zlecenie przepustki</p>
+      {%endif%}
+
+    </div>
+    </div>
+    <div class="container">
+    <div class="row">
+      <table class="table">
+        {%if request.resolver_match.url_name == 'zywienie_detail'%}
+        <thead class="font-weight-bold">
+          <tr>
+            <td>
+            <p class="text-center">Dieta objętość/objętość wody</p>
+            </td>
+            <td>
+            <p class="text-center">Data od:</p>
+            </td>
+            <td>
+            <p class="text-center">do:</p>
+            </td>
+            <td>
+            <p class="text-center">Podbij zlecenie!</p>
+            </td>
+          </tr>
+        </thead>
+        <tr>
+        <td class="text-center">{{object.dieta}}  {{object.dieta_objetosc}} ml / {{object.woda_objetosc}} ml wody</td>
+         <td class="text-center">{{object.data_od|date:" d.m.Y"}}</td>
+         <td class="text-center">  {%if object.data_do%}{{object.data_do|date:" d.m.Y"}}{%endif%}</td>
+         <td> <p class="p-5">&nbsp;</p></td>
+         {%elif request.resolver_match.url_name == 'wypis_detail'%}
+         <thead class="font-weight-bold">
+           <tr>
+             <td>
+             <p class="text-center">Tryb wypisu</p>
+             </td>
+             <td>
+             <p class="text-center">Data i godz. od:</p>
+             </td>
+             <td>
+             <p class="text-center">do:</p>
+             </td>
+             <td>
+             <p class="text-center">Podbij zlecenie!</p>
+             </td>
+           </tr>
+         </thead>
+         <td class="text-center">
+           <p>Tryb: {{object.tryb}}</p>
+           <p>Miejsce wypisu: {{object.miejsce_wypisu}}</p>
+           <p>Przyczyna wypisu: {{object.przyczyna_wypisu}}</p>
+         </td>
+          <td class="text-center">{{object.data_od|date:" d.m.Y - G:i"}}</td>
+          <td class="text-center">  {%if object.data_do%}{{object.data_do|date:" d.m.Y - G:i"}}{%endif%}</td>
+         {%elif request.resolver_match.url_name == 'przepustka_detail'%}
+         <thead class="font-weight-bold">
+           <tr>
+             <td>
+             <p class="text-center">Przepustka</p>
+             </td>
+             <td>
+             <p class="text-center">Data i godz. od:</p>
+             </td>
+             <td>
+             <p class="text-center">do:</p>
+             </td>
+             <td>
+             <p class="text-center">Podbij zlecenie!</p>
+             </td>
+           </tr>
+         </thead>
+         <td class="text-center">{%if object.tresc%}{{object.tresc}}{%else%}Przepustka{%endif%}</td>
+          <td class="text-center">{{object.data_od|date:" d.m.Y - G:i"}}</td>
+          <td class="text-center">  {%if object.data_do%}{{object.data_do|date:" d.m.Y - G:i"}}{%endif%}</td>
+         {%endif%}
+
+      </tr>
+      </table>
+      </div>
+    </div>
+
+  </body>
+</html>

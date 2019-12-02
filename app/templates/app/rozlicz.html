@@ -1,0 +1,66 @@
+{% extends "base_zero.html" %}
+{%block zero%}
+
+
+						<div class="container">
+
+								<header>
+
+									<p class="h1 text-left p-3">Rozliczenie</p>
+									<hr class="d-print-none">
+								</header>
+
+								<form  class= "custom-control d-print-none" method="post" value='zakres'>{% csrf_token %}
+								    {{ form.as_p }}
+								    <input class="btn btn-info  ml-3" type="submit" value="Save">
+								</form>
+								<hr>
+
+  <table class="table table-hover">
+    <thead >
+			<tr class=" bg-info text-center">
+				<th>Rozliczenie od:</th>
+				<th>{{form.data_od.value}}</th>
+				<th>do:</th>
+				<th>{{form.data_do.value}}</th>
+			</tr>
+      <tr class="thead-light">
+        <th><p class="text-center"><strong>Nazwisko i imie</strong></p></th>
+        <th><p class="text-center"><strong>Dni 3,16</strong></p></th>
+        <th><p class="text-center"><strong>Żywienie 6,62</strong></p></th>
+				<th><p class="text-center"><strong>Żywienie 7,97</strong></p></th>
+				<th><p class="text-center"><strong>Wypis</strong></p></th>
+				<th><p class="text-center"><strong>Przepustka</strong></p></th>
+      </tr>
+    </thead>
+    <tbody>
+
+{%for pacjent in queryset.object_list%}
+<tr>
+	<td class="p-2"><h4>{{pacjent.pacjent}}</h4>
+		{%if pacjent.przyjecie_data%} <p class="ml-4">Przyjęcie pacjenta: {{pacjent.przyjecie_data}} {%endif%}</p>
+		{%if pacjent.zgon_data%}{%if pacjent.pacjent.zgon.wyjsciowa%} <p class="ml-4">Zgon pacjenta: {%else%}Wypis:{%endif%}  {{pacjent.zgon_data}} </p>{%endif%}
+		{%if pacjent.wypisy%}{%for wypis in pacjent.wypisy%}<p class="ml-4">Wypis {{wypis.data_od|date:" d.m.Y"}} - {{wypis.data_do|date:" d.m.Y"}} </p>{%endfor%} {%endif%}
+		{%if pacjent.przepustki%}{%for przepustka in pacjent.przepustki%} <p class="ml-4">Przepustka {{przepustka.data_od|date:" d.m.Y"}} - {{przepustka.data_do|date:" d.m.Y"}} </p>{%endfor%} {%endif%}
+		{%if pacjent.zywienie_6%}{%for zywienie in pacjent.zywienie_6%} <p class="ml-4">Żywienie {{zywienie.data_od|date:" d.m.Y"}} - {{zywienie.data_do|date:" d.m.Y"}} <small><br>Glasgow {{zywienie.glasgow}}</small></p>{%endfor%} {%endif%}
+		{%if pacjent.zywienie_7%}{%for zywienie in pacjent.zywienie_7%} <p class="ml-4">Żywienie {{zywienie.data_od|date:" d.m.Y"}} - {{zywienie.data_do|date:" d.m.Y"}} <small><br>Glasgow {{zywienie.glasgow}}</small></p>{%endfor%} {%endif%}
+	</td>
+	<td class="align-middle"><p class="text-center">{{pacjent.dni_2}}</p></td>
+	<td class="align-middle"><p class="text-center">{{pacjent.dni_6}}</p></td>
+	<td class="align-middle"><p class="text-center">{{pacjent.dni_7}}</p></td>
+	<td class="align-middle"><p class="text-center">{{pacjent.dni_wypis}}</p></td>
+	<td class="align-middle"><p class="text-center">{{pacjent.dni_przepustka}}</p></td>
+</tr>
+{%endfor%}
+<tr class="bg-info">
+	<th><p class="text-center">Całość</p></th>
+	{%for rozlicz in queryset.rozliczenie%}
+	<th class="align-middle"><p class="text-center">{{rozlicz}}</p></th>
+	{%endfor%}
+</tr>
+    </tbody>
+  </table>
+
+
+						</div>
+{%endblock%}

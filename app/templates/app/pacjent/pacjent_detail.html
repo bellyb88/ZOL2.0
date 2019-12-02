@@ -1,0 +1,240 @@
+{% extends "base_one.html" %}
+{%block one%}
+<div class="row">
+  <div class="container">
+  <p class="h1 text-center mb-5">
+{%if previous and not pacjent.zgon%}
+  <a href="{%url request.resolver_match.url_name previous.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-left"></i></a>
+{%endif%}
+    <a class="text-reset" href="{%url 'pacjent_detail' pacjent.slug%}" >{{pacjent}}</a>
+    {%if next and not pacjent.zgon%}
+    <a href="{%url request.resolver_match.url_name next.first.slug%}" class="text-dark m-3"><i class="fas fa-arrow-alt-circle-right"></i></a>
+    {%endif%}
+  </p>
+  </div>
+
+</div>
+<div class="row">
+
+
+    <div class="col-sm-4">
+    <div class="card text-dark bg-light mb-3" style="min-width: 10rem;">
+      <a class="btn btn-outline-dark text-light bg-dark card-header" href="{%url 'dowod_update' pacjent.slug%}">Dowód osobisty</a>
+      <div class="card-body p-0">
+        <table class="table table-striped table-hover no-cellpadding">
+          <tr>
+            <td class="font-weight-bold">Numer księgi:</td>
+            <td>{{object.nr_ksiegi}}</td>
+
+          </tr>
+          <tr>
+            <td class="font-weight-bold">PESEL:</td>
+            <td>{{object.pesel}}</td>
+
+          </tr>
+          <tr>
+            <td class="font-weight-bold">Numer dowodu:</td>
+            <td>{{object.nr_dowodu}}</td>
+
+          </tr>
+          <tr>
+            <td class="font-weight-bold">Nazwisko rodowe:</td>
+            <td>{{object.nazwisko_rodowe}}</td>
+
+          </tr>
+          <tr>
+            <td class="font-weight-bold">Miejsce urodzenia:</td>
+            <td>{{object.miejsce_urodzenia}}</td>
+
+          </tr>
+          <tr>
+            <td class="font-weight-bold">Imiona rodziców:</td>
+            <td>{{object.imiona_rodzicow}}</td>
+
+          </tr>
+        </table>
+    </div>
+  </div>
+  </div>
+
+
+  <div class="col-sm-4">
+  <div class="card text-dark bg-light mb-3" style="min-width: 10rem;">
+    <a class="btn btn-outline-dark text-light bg-dark card-header" href="{%url 'legzus_update' pacjent.slug%}">Legitymacja ZUS</a>
+    <div class="card-body p-0">
+      <table class="table table-striped table-hover no-cellpadding">
+        <tr>
+          <td class="font-weight-bold">Numer legitymacji:</td>
+          <td>{{object.nr_leg_zus}}</td>
+
+        </tr>
+        <tr>
+          <td class="font-weight-bold">Data wydania:</td>
+          <td>{{object.data_wydania_zus}}</td>
+
+        </tr>
+        <tr>
+          <td class="font-weight-bold">Data ważności:</td>
+          <td>{%if object.data_waznosci_zus%}{{object.data_waznosci_zus}}{%else%}Bezterminowo{%endif%}</td>
+
+        </tr>
+
+      </table>
+  </div>
+</div>
+</div>
+
+<div class="col-sm-4">
+<div class="card text-dark bg-light mb-3" style="min-width: 10rem;">
+  <a class="btn btn-outline-dark text-light bg-dark card-header" href="{%url 'wniosek_update' pacjent.slug%}">Wniosek</a>
+  <div class="card-body p-0">
+    <table class="table table-striped table-hover no-cellpadding">
+      <tr>
+        <td class="font-weight-bold">Osoba do kontaktu:</td>
+        <td>{{object.osoba_kontaktu}}</td>
+
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Data przyjęcia:</td>
+        <td>{{object.data_przyjecia}}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Tryb przyjęcia:</td>
+        <td>{{object.tryb_przyjecia}}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Data skierowania:</td>
+        <td>{{object.data_skierowania}}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">PWZ kierującego:</td>
+        <td>{{object.pwz_zlecajacego}}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Szpital kierujący:</td>
+        <td>{{object.nazwa_szpitala}} <small>{{object.regon_szpitala}}</small></td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Oddział kierujący:</td>
+        <td>{{object.oddzial_zlecajacego}} <small>{{object.kod_oddzial_zlecajacego}}</small></td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Kod resortowy :</td>
+        <td><b>I</b> {{object.nr_rej_szpitala}} <b>VII</b> {{object.nr_wew_oddzialu}} <b>VIII</b> {{object.kod_oddzial_zlecajacego}}</td>
+      </tr>
+    </table>
+</div>
+</div>
+</div>
+
+
+<div class="col-sm-4">
+<div class="card text-dark bg-light mb-3" style="min-width: 10rem;">
+  <a class="btn btn-outline-dark text-light bg-dark card-header" href="{%url 'medyczne_update' pacjent.slug%}">Medyczne</a>
+<div class="card-body p-0">
+  <table class="table table-info table-striped table-hover no-cellpadding">
+    <tr>
+      <td class="font-weight-bold"><p>Wzrost: </p><p>Waga:</p> </td>
+      <td> <p>{{object.wzrost}} cm</p> <p>{{object.waga}} kg</p>  </td>
+    </tr>
+    <tr>
+      <td class="font-weight-bold">Pierwszy dekursus:</td>
+      <td><p>{{dekursus_lek.tresc}}</p></td>
+        </tr>
+
+  </table>
+</div>
+</div>
+</div>
+
+
+<div class="col-sm-4">
+<div class="card text-dark bg-light mb-3" style="min-width: 10rem;">
+  <a class="btn btn-outline-dark text-light bg-dark card-header" href="{%url 'choroby_update' pacjent.slug%}">Choroby</a>
+<div class="card-body p-0">
+<table class="table table-info table-striped table-hover no-cellpadding">
+  {%for choroba in chorobowosc.all%}
+  <tr>
+    <td>&nbsp;</td>
+    <td class="font-weight-bold">{{choroba.choroba.kod}}, {{choroba.choroba.nazwa}}</td>
+
+  </tr>
+  {%endfor%}
+  <tr>
+    <td class="font-weight-bold">Pozostałe choroby:</td>
+    <td><p>{{object.choroby}}</p>   </td>
+  </tr>
+
+</table>
+</div>
+</div>
+</div>
+
+
+<div class="col-sm-4">
+<div class="card text-dark bg-light " style="min-width: 10rem;">
+<a class="btn btn-outline-dark text-light bg-dark card-header" href="{%url 'medyczne_update' pacjent.slug%}">Wypis</a>
+<div class="card-body p-0">
+<table class="table table-info table-striped table-hover no-cellpadding">
+<tr>
+  <td class="font-weight-bold">Epikryza:</td>
+  <td><p>{{object.epikryza}}</p>   </td>
+</tr>
+<tr>
+  <td class="font-weight-bold">Wyniki:</td>
+  <td><p>{{object.wyniki}}</p>   </td>
+</tr>
+<tr>
+  <td class="font-weight-bold">Zalecenia:</td>
+  <td><p>{{object.zalecenia}} </p>   </td>
+</tr>
+
+</table>
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-4">
+<div class="card text-dark bg-light " style="min-width: 10rem;">
+<a class="btn btn-outline-dark text-light bg-dark card-header" href="#">Pobyt</a>
+<div class="card-body p-0">
+<table class="table table-danger table-striped table-hover no-cellpadding">
+  <tr>
+    <td class="font-weight-bold">Data przyjęcia:</td>
+    <td><p>{{object.data_przyjecia}}</p>   </td>
+  </tr>
+<tr>
+  <td class="font-weight-bold">Długość pobytu:</td>
+  <td><p>{{pobyt}} dni</p>   </td>
+</tr>
+{%if object.zgon and object.zgon.wyjsciowa%}
+<tr>
+  <td class="font-weight-bold">Data zgonu:</td>
+  <td><p>{{object.zgon.data}}</p>   </td>
+</tr>
+{%elif object.zgon and not object.zgon.wyjsciowa%}
+<tr>
+  <td class="font-weight-bold">Data wypisu:</td>
+  <td><p>{{object.zgon.data}}</p>   </td>
+</tr>
+{%endif%}
+<tr>
+  <td class="font-weight-bold">Wypisy:</td>
+  <td><p>{%if wypisy%}{{wypisy|length}}{%else%}0{%endif%}</p>   </td>
+</tr>
+<tr>
+  <td class="font-weight-bold">Przepustki:</td>
+  <td><p>{%if przepustki%}{{przepustki|length}}{%else%}0{%endif%}</p>   </td>
+</tr>
+
+</table>
+</div>
+</div>
+</div>
+
+</div>
+
+
+{%endblock%}
